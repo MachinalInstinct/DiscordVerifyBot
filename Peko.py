@@ -12,10 +12,10 @@ token_file.close()
 def get_prefix(bot, message):
     """A callable Prefix for our bot. This could be edited to allow per server prefixes."""
     
-    prefixes = ['.']
+    prefixes = ['-']
     if not message.guild:
         # Only allow ? to be used in DMs
-        return '.'
+        return '-'
 
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
