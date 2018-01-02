@@ -1,0 +1,5 @@
+token
+cogs/__pycache__/*
+cogs/basic/__pycache__/*
+.idea
+.git
