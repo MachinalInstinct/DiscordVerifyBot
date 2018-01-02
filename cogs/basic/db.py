@@ -1,12 +1,13 @@
 import pymysql as mysql
 #import discord
 
-conn = mysql.connect(host='setomaa.win',
-                             user='DiscordBot',
-                             password='91Qs5iU1GQK718aR',
-                             db='DiscordBot',
-                             charset='utf8mb4',
-                             cursorclass=mysql.cursors.DictCursor)
+sqlinfo = []
+with open("sqlinfo") as fin:
+    for line in fin:
+        sqlinfo.append(line.strip( '\n'))
+print(sqlinfo)
+
+conn = mysql.connect(host=sqlinfo[0],user=sqlinfo[1],password=sqlinfo[2],db=sqlinfo[3],charset='utf8mb4',cursorclass=mysql.cursors.DictCursor)
 
 c = conn.cursor()
 
