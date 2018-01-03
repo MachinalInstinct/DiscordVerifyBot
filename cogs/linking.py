@@ -21,7 +21,7 @@ class Linking:
         """Link yourself."""
         try:
             user = ctx.author
-            if not db.if_exists(user):
+            if not db.if_exists(user.id):
                 print("Doesn't exist, adding..")
 
                 same = True
@@ -43,6 +43,8 @@ class Linking:
 
                 db.add_user(user, ak)
 
+            await ctx.message.add_reaction('\N{BALLOT BOX WITH CHECK}')
+
             auth = db.get_authkey(user)
 
             print("USER:" + user.name)
@@ -52,6 +54,7 @@ class Linking:
             if db.is_verified(user):
                 await user.send(embed=status.is_verified())
                 return
+
 
             await user.send(embed=status.authkey(auth))
 
@@ -76,11 +79,11 @@ class Linking:
                 if not check.check_mod(ctx):
                     return
 
-            if not db.if_exists(user):
+            if not db.if_exists(user.id):
                 await ctx.author.send(embed=status.user_info(user, False))
                 return
 
-            user_db = db.get_user(user)
+            user_db = db.get_discord_user(user.id)
 
             steamid = user_db['SteamID']
             if steamid is None:

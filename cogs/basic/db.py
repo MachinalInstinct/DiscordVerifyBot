@@ -33,25 +33,52 @@ def is_verified(user):
     #sql = "SELECT {} FROM {} WHERE {}=?".format(column_to, table, column_by)
     #selection = [item[0] for item in c.execute(sql, (value_by,))]
 
-def if_exists(user):
-    id = user.id
+def if_exists(userid):
     sql = "SELECT * FROM `discord_link` where `DiscordID` = %s;"
-    exec = c.execute(sql,(str(id),))
-    print(exec)
+    exec = c.execute(sql,(str(userid),))
+    #print(exec)
 
     if exec == 1:
         return True
     if exec == 0:
         return False
 
-def get_user(user):
-    id = user.id
+def get_discord_user(userid):
     sql = "SELECT * FROM `discord_link` where `DiscordID` = %s;"
-    c.execute(sql, (str(id),))
+    c.execute(sql, (str(userid),))
     selection = c.fetchall()
     for item in selection:
         selection = item
     return selection
+
+def get_steam_user(userid):
+    sql = "SELECT * FROM `discord_link` where `SteamID` = %s;"
+    c.execute(sql, (str(userid),))
+    selection = c.fetchall()
+    for item in selection:
+        selection = item
+    if not selection:
+        selection = None
+    return selection
+
+def get_linked_users():
+    sql = "SELECT * FROM `discord_link`;"
+    c.execute(sql)
+    selection = c.fetchall()
+    #print(selection)
+    user_list = []
+    for user in selection:
+        #print(user)
+        dict(user)
+        #print(user)
+        member = user['DiscordID']
+        #print(member)
+        if not user['SteamID'] is None:
+            user_list.append(member)
+
+    #print(user_list)
+
+    return user_list
 
 def get_authkey(user):
     id = user.id
