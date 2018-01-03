@@ -25,20 +25,17 @@ class Background:
             vip_role = discord.utils.get(guild.roles, name='VIP')
             if self.runvip is True:
                 viplist = rcon.get_vip_steamid_list()
-                print(viplist)
+                #print(viplist)
                 for vip in viplist:
-                    print(vip)
+                    #print(vip)
                     user = db.get_steam_user(vip)
-                    print("USER: "+str(user))
+                    #print("USER: "+str(user))
                     if user is not None:
                         discordid = user['DiscordID']
-                        print(discordid)
+                        #print(discordid)
                         member = discord.utils.get(guild.members, id=int(discordid))
-                        print(member.name)
+                        #print(member.name)
                         await member.add_roles(vip_role, reason="VIP user")
-
-
-
 
             await asyncio.sleep(300)  # task runs every 5min
 

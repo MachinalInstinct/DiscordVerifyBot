@@ -5,10 +5,13 @@ import sys
 non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
 name = "Peko"
 
+rcon_file = open("rconinfo", "r")
+ws_info = str(rcon_file.readline())
+rcon_file.close()
 
 def rcon(msg):
     try:
-        ws = create_connection("ws://rust.setomaa.win:28016/MinaSiin")
+        ws = create_connection(str(ws_info))
         d = {
             "Message": str(msg),
             "Identifier": 0,

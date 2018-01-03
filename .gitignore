@@ -4,3 +4,4 @@ cogs/basic/__pycache__/*
 .idea
 .git
 sqlinfo
+rconinfo
