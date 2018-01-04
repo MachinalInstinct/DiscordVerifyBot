@@ -60,3 +60,17 @@ def get_vip_steamid_list():
         return vips
     except Exception as e:
         raise e
+
+def get_steamlink_steamid_list():
+    try:
+        sl_list = get_oxide_group_users("steamlink")
+        return sl_list
+    except Exception as e:
+        raise e
+
+def add_group(steamid, group):
+    try:
+        rcon('oxide.usergroup add '+steamid+' '+group)
+    except Exception as e:
+        raise e
+

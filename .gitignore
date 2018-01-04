@@ -5,3 +5,4 @@ cogs/basic/__pycache__/*
 .git
 sqlinfo
 rconinfo
+steamapi
