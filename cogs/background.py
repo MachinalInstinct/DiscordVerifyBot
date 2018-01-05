@@ -13,6 +13,23 @@ steamapi_file.close()
 
 api = steam.WebAPI(key=steamapi_key)
 
+filth = [".com", ".lt", ".net", ".org", ".gg", "csgogem", "csgolottery", "hellcase"]
+
+def fixname(name):
+    new_name = ''
+    count = 1
+    for namepart in name.split(' '):
+        if any(x in namepart.lower() for x in filth):
+            print("fuck this shit lol")
+            if count == len(name.split(' ')):
+                new_name = new_name.rstrip(' ')
+        else:
+            if count == len(name.split(' ')):
+                new_name = new_name+namepart
+            else:
+                new_name = new_name+namepart + ' '
+        count = count+1
+    return new_name
 
 class Background:
     def __init__(self, bot):
@@ -23,8 +40,8 @@ class Background:
         self.oxidegroupdiscord = True
         self.guild = self.bot.get_guild(297628706875375616)
         bot.bg_task = bot.loop.create_task(self.member())
-        bot.bg_task = bot.loop.create_task(self.nickname())
         bot.bg_task = bot.loop.create_task(self.vip())
+        bot.bg_task = bot.loop.create_task(self.nickname())
         bot.bg_task = bot.loop.create_task(self.oxide_group_discord())
 
 
@@ -76,7 +93,7 @@ class Background:
                 try:
                     for discord_id in discord_ids:
                         user = steam.SteamID(int(db.get_discord_user(discord_id)['SteamID']))
-                        display_name = api.call('ISteamUser.GetPlayerSummaries', steamids=user)['response']['players'][0]['personaname']
+                        display_name = fixname(api.call('ISteamUser.GetPlayerSummaries', steamids=user)['response']['players'][0]['personaname'])
                         member = discord.utils.get(self.guild.members, id=int(discord_id))
                         try:
                             print("NICKNAMECHECK FOR "+member.name)
