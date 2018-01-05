@@ -34,10 +34,10 @@ def fixname(name):
 class Background:
     def __init__(self, bot):
         self.bot = bot
-        self.runvip = False
-        self.runmember = False
-        self.runnickname = False
-        self.oxidegroupdiscord = False
+        self.runvip = True
+        self.runmember = True
+        self.runnickname = True
+        self.oxidegroupdiscord = True
         self.mutelist = True
         self.guild = self.bot.get_guild(297628706875375616)
         bot.bg_task = bot.loop.create_task(self.member())
