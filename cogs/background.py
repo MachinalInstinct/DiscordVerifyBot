@@ -154,18 +154,6 @@ class Background:
                         if discord_id in discord_muted_ids:
                             await member.add_roles(muted_role, reason="User has been muted.")
 
-
-
-                    #for discord_id in discord_linked_ids:
-                    #    member = discord.utils.get(self.guild.members, id=int(discord_id))
-                    #    if any(x in userroleslower for x in adminroleslower):
-
-
-                    #for steamid in steam_ids:
-                    #    discord_id = db.get_steam_user(steamid)['DiscordID']
-                    #    member = discord.utils.get(self.guild.members, id=int(discord_id))
-                    #    await member.add_roles(muted_role, reason="User has been muted.")
-
                 except Exception as e:
                     print(e)
 

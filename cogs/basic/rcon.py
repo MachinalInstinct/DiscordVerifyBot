@@ -78,6 +78,8 @@ def get_mutelist():
     try:
         mutelist = []
         raw = rcon('mutelist')
+        if raw == "There is nobody muted at the moment.":
+            return mutelist
         for line in raw.splitlines():
             steam_id = line.split(',')[0]
             print(steam_id)
