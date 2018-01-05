@@ -34,15 +34,17 @@ def fixname(name):
 class Background:
     def __init__(self, bot):
         self.bot = bot
-        self.runvip = True
-        self.runmember = True
-        self.runnickname = True
-        self.oxidegroupdiscord = True
+        self.runvip = False
+        self.runmember = False
+        self.runnickname = False
+        self.oxidegroupdiscord = False
+        self.mutelist = True
         self.guild = self.bot.get_guild(297628706875375616)
         bot.bg_task = bot.loop.create_task(self.member())
         bot.bg_task = bot.loop.create_task(self.vip())
         bot.bg_task = bot.loop.create_task(self.nickname())
         bot.bg_task = bot.loop.create_task(self.oxide_group_discord())
+        bot.bg_task = bot.loop.create_task(self.mute())
 
 
     async def vip(self):
@@ -111,8 +113,8 @@ class Background:
     async def oxide_group_discord(self):
         while True:
             if self.oxidegroupdiscord is True:
-                discord_ids = db.get_linked_users()
                 try:
+                    discord_ids = db.get_linked_users()
                     sl_list = rcon.get_steamlink_steamid_list()
                     print(sl_list)
                     for discord_id in discord_ids:
@@ -122,6 +124,47 @@ class Background:
                         if not str(steamID) in sl_list:
                             print("ADDING TO STEAMLINK GROUP: "+str(steamID))
                             rcon.add_group(str(steamID), 'steamlink')
+
+                except Exception as e:
+                    print(e)
+
+            await asyncio.sleep(300)  # task runs every 5min
+
+    async def mute(self):
+        while True:
+            muted_role = discord.utils.get(self.guild.roles, name='Muted')
+            if self.mutelist is True:
+                try:
+                    steam_muted_ids = rcon.get_mutelist()
+                    discord_linked_ids = db.get_linked_users()
+                    discord_muted_ids = []
+
+                    for steam_id in steam_muted_ids:
+                        discord_id = db.get_steam_user(steam_id)['DiscordID']
+                        discord_muted_ids.append(discord_id)
+
+                    for discord_id in discord_linked_ids:
+                        member = discord.utils.get(self.guild.members, id=int(discord_id))
+
+                        if muted_role in member.roles:
+                            if not discord_id in discord_muted_ids:
+                                await member.remove_roles(muted_role, reason="User has been unmuted.")
+                                return
+
+                        if discord_id in discord_muted_ids:
+                            await member.add_roles(muted_role, reason="User has been muted.")
+
+
+
+                    #for discord_id in discord_linked_ids:
+                    #    member = discord.utils.get(self.guild.members, id=int(discord_id))
+                    #    if any(x in userroleslower for x in adminroleslower):
+
+
+                    #for steamid in steam_ids:
+                    #    discord_id = db.get_steam_user(steamid)['DiscordID']
+                    #    member = discord.utils.get(self.guild.members, id=int(discord_id))
+                    #    await member.add_roles(muted_role, reason="User has been muted.")
 
                 except Exception as e:
                     print(e)

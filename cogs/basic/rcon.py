@@ -74,3 +74,16 @@ def add_group(steamid, group):
     except Exception as e:
         raise e
 
+def get_mutelist():
+    try:
+        mutelist = []
+        raw = rcon('mutelist')
+        for line in raw.splitlines():
+            steam_id = line.split(',')[0]
+            print(steam_id)
+            mutelist.append(steam_id)
+        return mutelist
+    except Exception as e:
+        raise e
+
+
