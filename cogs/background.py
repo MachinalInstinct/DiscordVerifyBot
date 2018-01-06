@@ -39,12 +39,14 @@ class Background:
         self.runnickname = True
         self.oxidegroupdiscord = True
         self.mutelist = True
+        self.clanchat = False
         self.guild = self.bot.get_guild(297628706875375616)
         bot.bg_task = bot.loop.create_task(self.member())
         bot.bg_task = bot.loop.create_task(self.vip())
         bot.bg_task = bot.loop.create_task(self.nickname())
         bot.bg_task = bot.loop.create_task(self.oxide_group_discord())
         bot.bg_task = bot.loop.create_task(self.mute())
+        bot.bg_task = bot.loop.create_task(self.clan_chat())
 
 
     async def vip(self):
@@ -58,6 +60,8 @@ class Background:
                     try:
                         if str(user['SteamID']) in vip_list_steam:
                             member = discord.utils.get(self.guild.members, id=int(discord_user))
+                            if member is None:
+                                continue
                             print(member.name+" is a VIP")
                             if vip_role not in member.roles:
                                 print(member.name + " added to VIP")
@@ -65,6 +69,8 @@ class Background:
 
                         if str(user['SteamID']) not in vip_list_steam:
                             member = discord.utils.get(self.guild.members, id=int(discord_user))
+                            if member is None:
+                                continue
                             print(member.name + " is not VIP")
                             if vip_role in member.roles:
                                 print(member.name + " removed from VIP")
@@ -82,6 +88,8 @@ class Background:
                 try:
                     for id in discord_ids:
                         member = discord.utils.get(self.guild.members, id=int(id))
+                        if member is None:
+                            continue
                         await member.add_roles(member_role, reason="Linked user.")
                 except Exception as e:
                     print(e)
@@ -98,6 +106,8 @@ class Background:
                         display_name = fixname(api.call('ISteamUser.GetPlayerSummaries', steamids=user)['response']['players'][0]['personaname'])
                         member = discord.utils.get(self.guild.members, id=int(discord_id))
                         try:
+                            if member is None:
+                                continue
                             print("NICKNAMECHECK FOR "+member.name)
                             if not member.display_name == display_name:
                                 print("CHANGING NICKNAME FOR "+member.name)
@@ -145,6 +155,8 @@ class Background:
 
                     for discord_id in discord_linked_ids:
                         member = discord.utils.get(self.guild.members, id=int(discord_id))
+                        if member is None:
+                            continue
 
                         if muted_role in member.roles:
                             if not discord_id in discord_muted_ids:
@@ -159,11 +171,16 @@ class Background:
 
             await asyncio.sleep(300)  # task runs every 5min
 
+    async def clan_chat(self):
+        while True:
+            if self.clanchat is True:
+                try:
+                    return
 
+                except Exception as e:
+                    print(e)
 
-
-
-
+            await asyncio.sleep(300)  # task runs every 5min
 
 def setup(bot):
     bot.add_cog(Background(bot))
