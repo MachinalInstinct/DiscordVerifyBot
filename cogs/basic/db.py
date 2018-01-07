@@ -5,11 +5,13 @@ sqlinfo = []
 with open("sqlinfo") as fin:
     for line in fin:
         sqlinfo.append(line.strip( '\n'))
-print(sqlinfo)
+#print(sqlinfo)
 
 conn = mysql.connect(host=sqlinfo[0],user=sqlinfo[1],password=sqlinfo[2],db=sqlinfo[3],charset='utf8mb4',cursorclass=mysql.cursors.DictCursor)
 
 c = conn.cursor()
+
+### ---LINKING---
 
 def is_verified(user):
     try:
@@ -133,4 +135,35 @@ def add_user(user, authkey):
     except Exception as e:
         raise e
 
+### ---CLAN CHAT---
 
+def get_clanchats():
+    try:
+        sql = "SELECT * FROM `discord_clan`;"
+        c.execute(sql)
+        selection = c.fetchall()
+        #print(selection)
+        return selection
+    except Exception as e:
+        raise e
+
+def add_clan(tag, vc_id, member_list):
+    try:
+        sql = "INSERT INTO `discord_clan` (`Tag`, `VoiceChannelID`, `MembersIDList`) VALUES (%s, %s, %s);"
+        c.execute(sql, (str(tag),str(vc_id),str(member_list)))
+    except Exception as e:
+        raise e
+
+def delete_clan(tag):
+    try:
+        sql = "DELETE FROM `discord_clan` WHERE `Tag` = %s;"
+        c.execute(sql, (str(tag),))
+    except Exception as e:
+        raise e
+
+def update_clan_members(newmembers, tag):
+    try:
+        sql = "UPDATE `discord_clan` SET `MembersIDList` = %s WHERE `discord_clan`.`Tag` = %s;"
+        c.execute(sql, (str(newmembers),str(tag)))
+    except Exception as e:
+        raise e

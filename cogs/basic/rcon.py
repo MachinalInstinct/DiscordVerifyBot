@@ -82,10 +82,33 @@ def get_mutelist():
             return mutelist
         for line in raw.splitlines():
             steam_id = line.split(',')[0]
-            print(steam_id)
+            #print(steam_id)
             mutelist.append(steam_id)
         return mutelist
     except Exception as e:
         raise e
 
+def get_clanslist2():
+    try:
+        clanlist = []
+        raw = rcon('clans.listex')
+        count = 0
+        dic = {}
+        for line in raw.splitlines():
+            rawentry = line.split(' ')
+            entrylist = []
+            for entry in rawentry:
+                if not entry is '':
+                    entrylist.append(entry)
 
+
+            if entrylist:
+                if count > 2:
+                    tag = entrylist[0]
+                    steamid = entrylist[len(entrylist)-2]
+                    dic[int(steamid)] = tag
+                count = count+1
+
+        return dic
+    except Exception as e:
+        raise e
