@@ -7,6 +7,7 @@ import traceback
 token_file = open("token", "r")
 token = str(token_file.readline())
 token_file.close()
+#token = 'Mzk5OTgxNzE1Mzk0Nzg5Mzc3.DTVEUg.cFvRVW8baFlYUeTvMX2ryU2-cAU'
 
 
 def get_prefix(bot, message):

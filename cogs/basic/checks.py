@@ -1,6 +1,6 @@
 import discord
 
-adminroles = ["Consul", "Community Manager", "Moderator", "Chat Mod"]
+adminroles = ["Consul", "Community Manager", "Moderator", "Chat Mod", "Bot"]
 
 def check_mod(ctx):
     roles = ctx.author.roles

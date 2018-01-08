@@ -37,3 +37,13 @@ def user_info(user,exists,steamid=False,authkey=False,verified=False):
     embed.add_field(name="Verification Status", value=str(verified), inline=False)
 
     return embed
+
+# RAid
+def raided(name, tag):
+    if tag is None:
+        embed = discord.Embed(title="You are being raided!", description=name+" is raiding you!", color=discord.Color.red())
+    if not tag is None:
+        embed = discord.Embed(title="You are being raided!", description=tag+' '+name+" is raiding you!", color=discord.Color.red())
+
+
+    return embed

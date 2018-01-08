@@ -316,5 +316,39 @@ class Background:
 
             await asyncio.sleep(600)  # task runs every 10min
 
+    @commands.command(name='rn', hidden=True)
+    @commands.guild_only()
+    #@commands.check(check.adminroles(self.ctx))
+    async def cmd_rn(self, ctx, victim_name: str = None, offender_name: str = None, offender_tag: str = None,):
+
+        """RAIDNOTICE"""
+        try:
+            print(victim_name)
+            print(offender_tag+' '+offender_name)
+
+
+            member_role = discord.utils.get(self.guild.roles, name='Verified')
+
+            victim = discord.utils.get(self.guild.members, display_name=victim_name)
+            print(victim)
+
+            if victim is None:
+                victim = discord.utils.find(lambda m: m.name == victim_name, self.guild.members)
+                print(victim)
+                if victim is None:
+                    return
+
+            if member_role in victim.roles:
+                print("HAS VERIFIED ROLE!")
+                await victim.send(embed=status.raided(offender_name, offender_tag))
+
+
+        except Exception as e:
+            try:
+                await ctx.channel.send(embed=status.error(e))
+                print(e)
+            except:
+                print(e)
+
 def setup(bot):
     bot.add_cog(Background(bot))
