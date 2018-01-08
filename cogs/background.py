@@ -323,8 +323,8 @@ class Background:
 
         """RAIDNOTICE"""
         try:
-            print(victim_name)
-            print(offender_tag+' '+offender_name)
+            print(str(victim_name))
+            print(str(offender_tag)+' '+str(offender_name))
 
 
             member_role = discord.utils.get(self.guild.roles, name='Verified')
