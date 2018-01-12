@@ -45,12 +45,14 @@ class Background:
         self.mutelist = True
         self.clanchat = True
         self.guild = self.bot.get_guild(297628706875375616)
+
         bot.bg_task = bot.loop.create_task(self.member())
         bot.bg_task = bot.loop.create_task(self.vip())
         bot.bg_task = bot.loop.create_task(self.nickname())
         bot.bg_task = bot.loop.create_task(self.oxide_group_discord())
-        bot.bg_task = bot.loop.create_task(self.mute())
         bot.bg_task = bot.loop.create_task(self.clan_chat())
+        bot.bg_task = bot.loop.create_task(self.mute())
+
 
 
     async def vip(self):
@@ -193,8 +195,14 @@ class Background:
                         user = db.get_discord_user(discord_id)
                         member = discord.utils.get(self.guild.members, id=int(discord_id))
 
+                        if member is None:
+                            continue
+
                         if int(user['SteamID']) in clans_list:
                             tag = clans_list[int(user['SteamID'])]
+                            print("--MEMBER--")
+                            print(member)
+                            print(tag)
                             print(member.name+" is in clan with the tag of "+tag)
 
                             if tag in taglist:
