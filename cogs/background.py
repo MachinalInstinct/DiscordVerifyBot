@@ -195,7 +195,7 @@ class Background:
                         user = db.get_discord_user(discord_id)
                         member = discord.utils.get(self.guild.members, id=int(discord_id))
 
-                        if member is None:
+                        if not member is None:
                             continue
 
                         if int(user['SteamID']) in clans_list:

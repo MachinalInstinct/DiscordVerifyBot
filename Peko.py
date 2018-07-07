@@ -7,7 +7,6 @@ import traceback
 token_file = open("token", "r")
 token = str(token_file.readline())
 token_file.close()
-#token = 'Mzk5OTgxNzE1Mzk0Nzg5Mzc3.DTVEUg.cFvRVW8baFlYUeTvMX2ryU2-cAU'
 
 
 def get_prefix(bot, message):
@@ -21,7 +20,8 @@ def get_prefix(bot, message):
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
 
-initial_extensions = ['cogs.linking','cogs.background']
+#initial_extensions = ['cogs.linking','cogs.background']
+initial_extensions = ['cogs.special_invite']
 bot = commands.Bot(command_prefix=get_prefix, description='Commands for Peko.')
 
 
@@ -29,7 +29,7 @@ bot = commands.Bot(command_prefix=get_prefix, description='Commands for Peko.')
 async def on_ready():
     print('Logged in as: {} - {}\nVersion: {}\n'.format(bot.user.name, bot.user.id, discord.__version__))
     # Changes our bots Playing Status. type=1(streaming) for a standard game you could remove type and url.
-    await bot.change_presence(game=discord.Game(name='-link to link your account', type=0))
+    await bot.change_presence(game=discord.Game(name='- is the prefix', type=0))
     # Here we load our extensions(cogs) listed above in [initial_extensions].
     if __name__ == '__main__':
         for extension in initial_extensions:

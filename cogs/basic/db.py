@@ -129,7 +129,6 @@ def get_authkeys():
 def add_user(user, authkey):
     try:
         id = user.id
-
         sql = "INSERT INTO `discord_link` (`DiscordID`, `AuthKey`, `Verified`) VALUES (%s, %s, %s);"
         c.execute(sql, (str(id),str(authkey),str(0)))
     except Exception as e:
